@@ -2,6 +2,7 @@
     display: flex;
     padding: 20px;
     gap: 20px;
+    width: 95%;
 }
 
 .ingredients {
@@ -10,6 +11,39 @@
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.ingredient-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+}
+
+.ingredient-check {
+    margin-right: 10px;
+}
+
+.ingredient-name {
+    flex: 1;
+}
+
+.ingredient-info {
+    display: flex;
+    gap: 10px;
+    min-width: 150px;
+    justify-content: flex-end;
+}
+
+.ingredient-amount,
+.ingredient-unit,
+.ingredient-price {
+    min-width: 40px;
+    text-align: right;
+}
+
+.ingredient-unit{
+    text-align: left;
 }
 
 .recipe-box {
@@ -21,11 +55,12 @@
 }
 
 ul {
-    padding-left: 20px;
+    padding-left: 0;
     margin-bottom: 10px;
 }
 
 .total {
     font-weight: bold;
     margin-top: 10px;
+    text-align: right;
 }
