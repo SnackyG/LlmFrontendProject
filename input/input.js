@@ -2,11 +2,12 @@ promptBtnActionListner()
 
 function sendPrompt() {
     const prompt = document.getElementById('prompt').value;
+    console.log(prompt);
 
 
     // Skal rykkes ned i .then kaldet når vi har endpointet
 
-    fetch('http://localhost:3000/generate-recipe?query='+ prompt)
+    fetch('http://localhost:8080/generate-recipe?query=' + prompt)
         .then(response => {
             if (!response.ok) {
                 throw Error(response.statusText);
@@ -14,9 +15,12 @@ function sendPrompt() {
             return response.json();
         })
         .then(data => {
-            console.log("VORES DATA SER SÅDAN HER UD: " + data);
+            console.log("VORES DATA SER SÅDAN HER UD: " + JSON.stringify(data, null, 2));
             window.location.href = "../recipe/recipe.html";
         })
+        .catch(error => {
+            console.error('Der opstod en fejl:', error);
+        });
 }
 
 function promptBtnActionListner() {
