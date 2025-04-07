@@ -16,11 +16,12 @@ function sendPrompt() {
         })
         .then(data => {
             console.log("VORES DATA SER SÅDAN HER UD: " + JSON.stringify(data, null, 2));
-            window.location.href = "../recipe/recipe.html";
+   //         window.location.href = "../recipe/recipe.html";
         })
         .catch(error => {
             console.error('Der opstod en fejl:', error);
         });
+
 }
 
 function promptBtnActionListner() {
