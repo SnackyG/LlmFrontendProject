@@ -4,6 +4,8 @@ function sendPrompt() {
     const prompt = document.getElementById('prompt').value;
     console.log(prompt);
 
+    document.getElementById('promptContainer').style.display = 'none';
+    document.getElementById('loadingScreen').style.display = 'flex';
 
     // Skal rykkes ned i .then kaldet når vi har endpointet
 
@@ -16,6 +18,8 @@ function sendPrompt() {
         })
         .then(data => {
             console.log("VORES DATA SER SÅDAN HER UD: " + JSON.stringify(data, null, 2));
+
+            setTimeout()
    //         window.location.href = "../recipe/recipe.html";
         })
         .catch(error => {
