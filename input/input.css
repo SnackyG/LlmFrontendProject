@@ -1,0 +1,114 @@
+#promptContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+#promptHeader {
+    display: flex;
+    flex-direction: column;
+    font-family: "Kanit", sans-serif;
+    font-size: 2rem;
+    line-height: 1.4;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    word-wrap: break-word;
+}
+
+#promptHeader .large-text {
+    font-size: 7rem;
+    color: #62af9f;
+    font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+#promptHeader .highlight-text {
+    font-size: 3rem;
+    color: #48b6a1;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#promptHeader .bold-text {
+    font-size: 2.8rem;
+    color: #2c3e50;
+    font-weight: bold;
+    font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
+}
+
+#promptHeader .italics-text {
+    font-size: 2.2rem;
+    color: #046c58;
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+#promptHeader .extra-large-text {
+    font-size: 4rem;
+    color: #ffd5d5;
+    font-weight: 700;
+    font-family: "Anton", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+}
+
+#prompt {
+    width: 100%;
+    max-width: 600px;
+    min-height: 250px;
+    background: #f9f9f9;
+    padding: 1.2rem;
+    border-radius: 1rem;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    resize: none;
+    font-family: "Kanit", sans-serif;
+    font-size: 2rem;
+    line-height: 1.5;
+    color: #333;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#prompt:focus {
+    outline: none;
+    border-color: #48b6a1;
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.2);
+}
+#prompt::placeholder {
+    color: #aaa;
+    text-align: center;
+    line-height: 150px;
+    font-size: 30px;
+}
+
+#promptBtn {
+    width: 10%;
+    height: 10%;
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 2rem;
+    border: none;
+    border-radius: 0.75rem;
+    background-color: #48b6a1;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-family: "Kanit", sans-serif;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#promptBtn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#promptBtn:active {
+    transform: scale(0.98);
+}
