@@ -5,15 +5,8 @@ function sendPrompt() {
 
 
     // Skal rykkes ned i .then kaldet når vi har endpointet
-    window.location.href = "../recipe/recipe.html";
 
-    fetch('http://localhost:3000/api/prompts', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({prompt})
-    })
+    fetch('http://localhost:3000/generate-recipe?query='+ prompt)
         .then(response => {
             if (!response.ok) {
                 throw Error(response.statusText);
@@ -22,7 +15,7 @@ function sendPrompt() {
         })
         .then(data => {
             console.log("VORES DATA SER SÅDAN HER UD: " + data);
-
+            window.location.href = "../recipe/recipe.html";
         })
 }
 
