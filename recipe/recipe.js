@@ -20,11 +20,11 @@ const recipe = {
     tags: ["pasta", "dinner"]
 };
 
-function renderIngredients(list, elementId, showCheckmarks = false) {
+function renderIngredients(list, elementId, checked = false) {
     const ul = document.getElementById(elementId);
     ul.innerHTML = list.map(i => `
     <li class="ingredient-item">
-      ${showCheckmarks ? `<input type="checkbox" class="ingredient-check" />` : ''}
+      <input type="checkbox" class="ingredient-check" ${checked ? 'checked' : ''}/>
       <div class="ingredient-name">${i.name}</div>
       <div class="ingredient-info">
         <div class="ingredient-amount">${i.amount}</div>
@@ -34,15 +34,13 @@ function renderIngredients(list, elementId, showCheckmarks = false) {
     </li>
   `).join("");
 
-    if (showCheckmarks) {
-        ul.addEventListener("change", () => {
-            const checked = Array.from(ul.querySelectorAll(".ingredient-check"))
-                .filter(cb => cb.checked)
-                .map(cb => cb.parentElement.querySelector(".ingredient-name").textContent);
-            const totalPriceList = list.filter(i => !checked.includes(i.name));
-            document.getElementById("total-price").textContent = calcTotal(totalPriceList);
-        });
-    }
+    ul.addEventListener("change", (event) => {
+        const checked = Array.from(ul.querySelectorAll(".ingredient-check"))
+            .filter(cb => cb.checked)
+            .map(cb => cb.parentElement.querySelector(".ingredient-name").textContent);
+        const totalPriceList = list.filter(i => !checked.includes(i.name));
+        document.getElementById("total-price").textContent = calcTotal(totalPriceList);
+    });
 }
 
 
@@ -63,7 +61,7 @@ function renderRecipeBox(recipe) {
   `;
 }
 
-renderIngredients(recipe.ingredients_to_buy, "to-buy", true);
-renderIngredients(recipe.ingredients_at_home, "at-home");
+renderIngredients(recipe.ingredients_to_buy, "to-buy");
+renderIngredients(recipe.ingredients_at_home, "at-home", true);
 document.getElementById("total-price").textContent = calcTotal(recipe.ingredients_to_buy);
 renderRecipeBox(recipe);
