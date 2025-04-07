@@ -24,6 +24,11 @@
     margin-right: 10px;
 }
 
+.ingredient-check:checked ~ .ingredient-name,
+.ingredient-check:checked ~ .ingredient-info {
+    opacity: 0.5;
+}
+
 .ingredient-name {
     flex: 1;
 }
@@ -38,12 +43,15 @@
 .ingredient-amount,
 .ingredient-unit,
 .ingredient-price {
-    min-width: 40px;
     text-align: right;
 }
 
 .ingredient-unit{
     text-align: left;
+}
+
+.ingredient-price {
+    min-width: 100px;
 }
 
 .recipe-box {
