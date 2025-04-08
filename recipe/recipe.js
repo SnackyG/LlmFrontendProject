@@ -71,3 +71,42 @@ renderIngredients(recipe.ingredients_at_home, "at-home", true);
 document.getElementById("total-price").textContent = calcTotal(recipe.ingredients_to_buy);
 renderRecipeBox(recipe);
 renderIngredients(allIngredients, "all-ingredients", false, false, false);
+
+async function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const res = await fetch(`http://localhost:8080/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+        credentials: 'include' // Make sure cookies are sent
+    });
+
+    if (res.ok) {
+        alert('Cookies set via proxy');
+        await addToBasket(5062512, 1);
+    } else {
+        alert('Login failed');
+    }
+}
+
+async function addToBasket(product_id, quantity) {
+    const res = await fetch('http://localhost:8080/addToBasket', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',  // Ensure cookies are included in the request
+        body: JSON.stringify({ productId: product_id, quantity: quantity })
+    });
+
+    if (res.ok) {
+        // Handle success (e.g., show a success message, update UI, etc.)
+    } else {
+        console.error('Failed to add to basket');
+        // Handle error (e.g., show an error message)
+    }
+}
