@@ -113,9 +113,48 @@
     transform: scale(0.98);
 }
 
-
-.slider-container {
+#creativitySliderContainer {
+    position: relative; /* Nødvendig for at boblen kan placeres relativt */
+    margin-top: 1.5rem;
+    text-align: center;
+    font-family: "Kanit", sans-serif;
+    color: #2c3e50;
+    max-width: 600px;
     width: 100%;
+}
+
+#creativityLabel {
+    font-size: 1.6rem;
+    display: block;
+    margin-bottom: 0.8rem;
+}
+
+#creativitySlider {
+    width: 100%;
+
+    appearance: none;
+    height: 10px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #48b6a1, #c44545);
+    outline: none;
+    transition: background 0.3s;
+}
+
+#creativitySlider::-webkit-slider-thumb {
+    appearance: none;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background: #2c3e50;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+    z-index: 1;
+}
+
+#creativitySlider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+
     max-width: 600px;
     display: flex;
     flex-direction: column;
@@ -124,6 +163,7 @@
     margin-top: 20px;
     font-family: "Anton", sans-serif;
     color: #eca3a3;
+
 }
 /*LOADING SCREEN*/
 
@@ -158,5 +198,20 @@
     }
     100% {
         transform: rotate(360deg);
+    }
+}
+
+.floating-ingredient {
+    position: fixed;
+    top: -40px;
+    font-size: 2rem;
+    animation: floatDown 3s ease-in forwards;
+    z-index: 999;
+}
+
+@keyframes floatDown {
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
     }
 }
