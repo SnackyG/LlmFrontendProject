@@ -24,7 +24,7 @@ function sendPrompt() {
         .then(data => {
             console.log("VORES DATA SER SÅDAN HER UD: ", JSON.stringify(data, null, 2));
 
-            export const recipe = {
+             const recipe = {
                 title: data.title,
                 servings: data.servings,
                 ingredients_to_buy: data.ingredients_to_buy,
@@ -37,15 +37,9 @@ function sendPrompt() {
 
 
             setTimeout(() => {
-
-                localStorage.setItem('generatedRecipe', JSON.stringify(data));
+                localStorage.setItem('generatedRecipe', JSON.stringify(recipe));
+                window.location.href = "../recipe/recipe.html";
             }, 2000);
-
-
-                localStorage.setItem('generatedRecipe', JSON.stringify(data)); // Store data in localStorage
-                window.location.href = "../recipe/recipe.html"; // Redirect to the new page
-            }, 2000); // Simulate loading screen for 2 seconds
-
         })
         .catch(error => {
             console.error('Der opstod en fejl:', error);
@@ -68,9 +62,6 @@ function getRandomRecipe() {
 
             setTimeout(() => {
                 localStorage.setItem('generatedRecipe', JSON.stringify(data));
-
-               // window.location.href = "../recipe/recipe.html";
-            }, 2000);
 
                 window.location.href = "../recipe/recipe.html";
             }, 2000); // Simulate loading screen for 2 seconds
