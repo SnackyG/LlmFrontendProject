@@ -66,6 +66,7 @@ function renderRecipeBox(recipe) {
     <ol>${recipe.steps.map(s => `<li>${s}</li>`).join("")}</ol>
   `;
 }
+
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -184,7 +185,6 @@ document.addEventListener('click', function (e) {
 document.getElementById('CheckoutBtn').addEventListener('click', function () {
     openModal();
 });
-=======
 
 let recipe;
 
@@ -200,4 +200,18 @@ document.addEventListener("DOMContentLoaded", () => {
         renderRecipeBox(recipe);
         renderIngredients(allIngredients, "all-ingredients", false, false, false, "recipeBoxIngredient");
     }
-});
+})
+
+document.addEventListener("DOMContentLoaded", () => {
+    recipe = JSON.parse(localStorage.getItem('randomRecipe'));
+
+    if (recipe) {
+
+        const allIngredients = [...recipe.ingredients_to_buy, ...recipe.ingredients_at_home];
+        renderIngredients(recipe.ingredients_to_buy, "to-buy");
+        renderIngredients(recipe.ingredients_at_home, "at-home", true);
+        document.getElementById("total-price").textContent = calcTotal(recipe.ingredients_to_buy);
+        renderRecipeBox(recipe);
+        renderIngredients(allIngredients, "all-ingredients", false, false, false, "recipeBoxIngredient");
+    }
+})

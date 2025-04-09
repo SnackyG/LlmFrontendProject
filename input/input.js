@@ -60,11 +60,22 @@ function getRandomRecipe() {
         .then(data => {
             console.log("VORES tilfældige ret SER SÅDAN HER UD: ", JSON.stringify(data, null, 2));
 
+            const recipe = {
+                title: data.title,
+                servings: data.servings,
+                ingredients_to_buy: data.ingredients_to_buy,
+                ingredients_at_home: data.ingredients_at_home,
+                steps: data.steps,
+                prep_time_minutes: data.prep_time_minutes,
+                cook_time_minutes: data.cook_time_minutes,
+                tags: data.tags
+            }
+
             setTimeout(() => {
-                localStorage.setItem('generatedRecipe', JSON.stringify(data));
+                localStorage.setItem('randomRecipe', JSON.stringify(recipe));
 
                 window.location.href = "../recipe/recipe.html";
-            }, 2000); // Simulate loading screen for 2 seconds
+            }, 1000); // Simulate loading screen for 2 seconds
 
         })
         .catch(error => {
