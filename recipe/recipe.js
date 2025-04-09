@@ -1,28 +1,3 @@
-const recipe = {
-    title: "Spaghetti Bolognese",
-    servings: 4,
-    ingredients_to_buy: [
-        {id: 2301138, name: "Spaghetti", amount: 400, unit: "g", price: 1.5},
-        {id: 103368, name: "Oksekød", amount: 500, unit: "g", price: 4.0},
-        {id: 5068472, name: "Løg", amount: 2, unit: "pcs", price: 0.6},
-        {id: 5004144, name: "Tomat pasta", amount: 140, unit: "g", price: 1.2},
-    ],
-    ingredients_at_home: [
-        {id: 5004544, name: "Salt", amount: 1, unit: "tsp", price: 0},
-        {id: 5002566, name: "Peber", amount: 1, unit: "tsp", price: 0}
-    ],
-    steps: [
-        "Sæt vand over",
-        "Kog pasta",
-        "Steg kødet",
-        "Mix de resterende varer i",
-        "Kog i 30 minutter"
-    ],
-    prep_time_minutes: 10,
-    cook_time_minutes: 20,
-    tags: ["pasta", "dinner"]
-};
-
 const basket = {
     items: [],
     quantity: 0,
@@ -91,14 +66,6 @@ function renderRecipeBox(recipe) {
     <ol>${recipe.steps.map(s => `<li>${s}</li>`).join("")}</ol>
   `;
 }
-
-const allIngredients = [...recipe.ingredients_to_buy, ...recipe.ingredients_at_home];
-renderIngredients(recipe.ingredients_to_buy, "to-buy");
-renderIngredients(recipe.ingredients_at_home, "at-home", true);
-document.getElementById("total-price").textContent = calcTotal(recipe.ingredients_to_buy);
-renderRecipeBox(recipe);
-renderIngredients(allIngredients, "all-ingredients", false, false, false, "recipeBoxIngredient");
-
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -216,4 +183,21 @@ document.addEventListener('click', function (e) {
 
 document.getElementById('CheckoutBtn').addEventListener('click', function () {
     openModal();
+});
+=======
+
+let recipe;
+
+document.addEventListener("DOMContentLoaded", () => {
+    recipe = JSON.parse(localStorage.getItem('generatedRecipe'));
+
+    if (recipe) {
+
+        const allIngredients = [...recipe.ingredients_to_buy, ...recipe.ingredients_at_home];
+        renderIngredients(recipe.ingredients_to_buy, "to-buy");
+        renderIngredients(recipe.ingredients_at_home, "at-home", true);
+        document.getElementById("total-price").textContent = calcTotal(recipe.ingredients_to_buy);
+        renderRecipeBox(recipe);
+        renderIngredients(allIngredients, "all-ingredients", false, false, false, "recipeBoxIngredient");
+    }
 });

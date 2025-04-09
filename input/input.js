@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     promptBtnActionListener();
     randomBtnActionListener();
+    creativitySliderSetup(); // ← tilføj denne
 });
+
 
 // Send prompt to backend
 function sendPrompt() {
     const prompt = document.getElementById('prompt').value;
     console.log("Prompt:", prompt);
-    const temperature = document.getElementById('temperatureSlider').value;
+    const temperature = document.getElementById('creativitySlider').value;
 
     document.getElementById('promptContainer').style.display = 'none';
     document.getElementById('loadingScreen').style.display = 'flex';
@@ -22,10 +24,22 @@ function sendPrompt() {
         .then(data => {
             console.log("VORES DATA SER SÅDAN HER UD: ", JSON.stringify(data, null, 2));
 
+             const recipe = {
+                title: data.title,
+                servings: data.servings,
+                ingredients_to_buy: data.ingredients_to_buy,
+                ingredients_at_home: data.ingredients_at_home,
+                steps: data.steps,
+                prep_time_minutes: data.prep_time_minutes,
+                cook_time_minutes: data.cook_time_minutes,
+                tags: data.tags
+            }
+
+
             setTimeout(() => {
-                localStorage.setItem('generatedRecipe', JSON.stringify(data));
-               // window.location.href = "../recipe/recipe.html";
-            }, 2000); // Simulate loading screen for 2 seconds
+                localStorage.setItem('generatedRecipe', JSON.stringify(recipe));
+                window.location.href = "../recipe/recipe.html";
+            }, 2000);
         })
         .catch(error => {
             console.error('Der opstod en fejl:', error);
@@ -48,8 +62,10 @@ function getRandomRecipe() {
 
             setTimeout(() => {
                 localStorage.setItem('generatedRecipe', JSON.stringify(data));
-               // window.location.href = "../recipe/recipe.html";
+
+                window.location.href = "../recipe/recipe.html";
             }, 2000); // Simulate loading screen for 2 seconds
+
         })
         .catch(error => {
             console.error('Der opstod en fejl:', error);
@@ -61,7 +77,10 @@ function getRandomRecipe() {
 function promptBtnActionListener() {
     const promptBtn = document.getElementById('promptBtn');
     if (promptBtn) {
-        promptBtn.addEventListener('click', sendPrompt);
+        promptBtn.addEventListener('click', () => {
+            sendPrompt();  // First send the prompt
+            startContinuousFoodAnimation();
+        });
     }
 }
 
@@ -69,7 +88,10 @@ function promptBtnActionListener() {
 function randomBtnActionListener() {
     const randomBtn = document.getElementById('randomBtn');
     if (randomBtn) {
-        randomBtn.addEventListener('click', getRandomRecipe);
+        randomBtn.addEventListener('click', () => {
+            getRandomRecipe();  // Get random recipe
+            startContinuousFoodAnimation();
+        });
     }
 }
 
@@ -79,9 +101,55 @@ function showErrorMessage() {
     alert("Noget gik galt! Prøv igen.");
 }
 
-const slider = document.getElementById('temperatureSlider');
-const sliderValue = document.getElementById('sliderValue');
 
-slider.addEventListener('input', function() {
-    sliderValue.textContent = slider.value; // Update the value display as the slider moves
-});
+function creativitySliderSetup() {
+    const creativitySlider = document.getElementById("creativitySlider");
+    const creativityLabel = document.getElementById("creativityLabel");
+
+    function getCreativityText(value) {
+        const v = parseFloat(value);
+        if (v < 0.5) return "🤔 Bare noget simpelt";
+        if (v < 1.0) return "🎨 Noget spændende";
+        if (v < 1.5) return "🧠 Nu bliver det vildt!";
+        if (v < 1.9) return "🚀 Kulinarisk eksperiment!";
+        return "🧪💥 Madvidenskab!";
+    }
+
+    creativitySlider.addEventListener("input", () => {
+        const val = creativitySlider.value;
+        creativityLabel.textContent = `Kreativitetsniveau: ${getCreativityText(val)}`;
+    });
+}
+
+function foodAnimation() {
+    const ingredients = ["🥦", "🥩", "🧄", "🍅", "🧀", "🌶️", "🥕","🥑","🍗","🍆"];
+    ingredients.forEach((emoji, index) => {
+            const el = document.createElement('div');
+            el.className = 'floating-ingredient';
+            el.textContent = emoji;
+            el.style.left = Math.random() * 100 + "%";
+            document.body.appendChild(el);
+
+            setTimeout(() => el.remove(), 3000);
+
+        }
+    );
+}
+
+let intervalTime = 600; // Starting interval time in milliseconds
+let intervalId;
+
+function startContinuousFoodAnimation() {
+    function updateInterval() {
+        foodAnimation(); // Trigger the food animation
+        intervalTime = Math.max(25, intervalTime * 0.9); // Decrease interval time by 10% but stop at 50ms
+
+        // Clear the previous interval and set a new one with the updated interval time
+        clearInterval(intervalId);
+        intervalId = setInterval(updateInterval, intervalTime); // Reset the interval with the new time
+
+        console.log("New interval time:", intervalTime);
+    }
+
+    intervalId = setInterval(updateInterval, intervalTime); // Start the first interval
+}
