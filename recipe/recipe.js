@@ -184,16 +184,16 @@ document.addEventListener('click', function (e) {
 document.getElementById('CheckoutBtn').addEventListener('click', function () {
     openModal();
 });
-=======
 
 let recipe;
+let allIngredients;
 
 document.addEventListener("DOMContentLoaded", () => {
     recipe = JSON.parse(localStorage.getItem('generatedRecipe'));
 
     if (recipe) {
 
-        const allIngredients = [...recipe.ingredients_to_buy, ...recipe.ingredients_at_home];
+        allIngredients = [...recipe.ingredients_to_buy, ...recipe.ingredients_at_home];
         renderIngredients(recipe.ingredients_to_buy, "to-buy");
         renderIngredients(recipe.ingredients_at_home, "at-home", true);
         document.getElementById("total-price").textContent = calcTotal(recipe.ingredients_to_buy);
