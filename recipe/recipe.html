@@ -12,12 +12,14 @@
 </head>
 <body>
 <header class="header">
-    <h1>My Shop</h1>
+    <h1></h1>
     <div id="basketDropdownContainer">
-        <button id="basketBtn" class="basket-btn" onclick="openBasket()">🧺 <span id="basketCount">0</span></button>
+        <button id="basketBtn" class="basket-btn" onclick="openBasket()"><img src="../images/basket.png"
+                                                                              class="basketImg" alt="basket"> <span id="basketCount">0</span>
+        </button>
         <div id="basketDropdown" class="basket-dropdown" style="display: none;">
             <div class="basketHeader">
-                <h2>Your Basket</h2>
+                <h2>Din kurv</h2>
                 <h2 class="basketHeaderPrice"></h2>
             </div>
             <ul id="basketItems"></ul>

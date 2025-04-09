@@ -11,7 +11,20 @@
     background: transparent;
     padding: 20px;
     border-radius: 12px;
-    /*box-shadow: 0 2px 6px rgba(0,0,0,0.1);*/
+    overflow-y: auto;
+}
+
+.ingredients::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.ingredients::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 .ingredient-item {
@@ -21,7 +34,7 @@
     border: none;
     border-radius: 5px;
     margin: 15px;
-    font-size: 20px;
+    font-size: 15px;
     font-family: "Kanit", sans-serif;
     padding: 6px;
     cursor: pointer;
@@ -65,7 +78,7 @@
 }
 
 .recipe-box {
-    width: 300px;
+    width: 500px;
     max-height: 80vh;
     overflow-y: auto;
     background: #fff;
@@ -73,14 +86,18 @@
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     font-family: "Monserrat", sans-serif;
+    margin-top: 40px;
 }
+
 .recipe-box::-webkit-scrollbar {
     width: 8px;
 }
+
 .recipe-box::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
 }
+
 .recipe-box::-webkit-scrollbar-track {
     background: transparent;
 }
@@ -112,16 +129,16 @@ ul {
     border: 1px solid red;
 }
 
-#basketBtnAndTotalAmount{
+#basketBtnAndTotalAmount {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     flex-direction: row;
 }
 
-.addToBasketBtn{
-    width: 20%;
-    height: 20%;
+.addToBasketBtn {
+    width: 60%;
+    height: 10%;
     padding: 0.75rem 1.5rem;
     font-size: 2rem;
     border: none;
@@ -135,12 +152,13 @@ ul {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.addToBasketBtn:hover{
+.addToBasketBtn:hover {
     transform: scale(1.03);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border: 1px solid white;
 }
-.addToBasketBtn:active{
+
+.addToBasketBtn:active {
     transform: scale(0.98);
 }
 
@@ -199,6 +217,7 @@ input#username, input#password {
     font-size: 1rem;
     box-sizing: border-box;
 }
+
 button.login-btn {
     padding: 0.5rem;
     width: 100%;
@@ -210,12 +229,17 @@ button.login-btn {
 }
 
 .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: transparent;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    background: #eee;
-    width: 100%;
+    z-index: 1000;
 }
 
 .basket-btn {
@@ -281,6 +305,12 @@ button.login-btn {
     font-weight: normal;
 }
 
+.basketImg {
+    width: 50px;
+    height: 50px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
 
 
 
