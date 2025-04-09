@@ -11,6 +11,20 @@
           rel="stylesheet">
 </head>
 <body>
+<header class="header">
+    <h1>My Shop</h1>
+    <div id="basketDropdownContainer">
+        <button id="basketBtn" class="basket-btn" onclick="openBasket()">🧺 <span id="basketCount">0</span></button>
+        <div id="basketDropdown" class="basket-dropdown" style="display: none;">
+            <div class="basketHeader">
+                <h2>Your Basket</h2>
+                <h2 class="basketHeaderPrice"></h2>
+            </div>
+            <ul id="basketItems"></ul>
+            <button id="CheckoutBtn">Gå til kassen</button>
+        </div>
+    </div>
+</header>
 <div class="layout">
     <div class="ingredients">
         <h2>Køb</h2>
@@ -18,11 +32,24 @@
         <h2>Har allerede</h2>
         <ul id="at-home"></ul>
         <div id="basketBtnAndTotalAmount">
-            <button class="addToBasketBtn">Tilføj til kurv - <span id="total-price">0.00</span> DKK </button>
+            <button class="addToBasketBtn">Tilføj til kurv - <span id="total-price">0.00</span> DKK</button>
         </div>
     </div>
     <div class="recipe-box" id="recipe-box"></div>
 </div>
+<div id="loginModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="login-box">
+            <img src="../images/nemlig-logo.png" alt="Logo" class="nemlig-logo"/>
+            <input type="text" id="username" placeholder="Username"/>
+            <input type="password" id="password" placeholder="Password"/>
+            <button onclick="login()" class="login-btn">Login</button>
+        </div>
+    </div>
+</div>
+
+
 <script src="recipe.js"></script>
 </body>
 </html>

@@ -1,31 +1,8 @@
-// const recipe = {
-//     title: "Spaghetti Bolognese",
-//     servings: 4,
-//     ingredients_to_buy: [
-//         {name: "Spaghetti", amount: 400, unit: "g", price: 1.5},
-//         {name: "Oksekød", amount: 500, unit: "g", price: 4.0},
-//         {name: "Løg", amount: 2, unit: "pcs", price: 0.6},
-//         {name: "Tomat pasta", amount: 140, unit: "g", price: 1.2},
-//         {name: "hvidløg", amount: 400, unit: "g", price: 1.5},
-//         {name: "Parmesan ost", amount: 100, unit: "g", price: 2.8}
-//     ],
-//     ingredients_at_home: [
-//         {name: "Salt", amount: 1, unit: "tsp", price: 0},
-//         {name: "Peber", amount: 1, unit: "tsp", price: 0}
-//     ],
-//     steps: [
-//         "Sæt vand over",
-//         "Kog pasta",
-//         "Steg kødet",
-//         "Mix de resterende varer i",
-//         "Kog i 30 minutter"
-//     ],
-//     prep_time_minutes: 10,
-//     cook_time_minutes: 20,
-//     tags: ["pasta", "dinner"]
-// };
-
-
+const basket = {
+    items: [],
+    quantity: 0,
+    totalPrice: 0,
+};
 
 function renderIngredients(list, elementId, checked = false, showCheckMark = true, showPrice = true, addClass = "") {
     const ul = document.getElementById(elementId);
@@ -72,7 +49,6 @@ function renderIngredients(list, elementId, checked = false, showCheckMark = tru
     }
 }
 
-
 function calcTotal(ingredients) {
     return ingredients.reduce((sum, i) => sum + (i.price || 0), 0).toFixed(2);
 }
@@ -90,7 +66,125 @@ function renderRecipeBox(recipe) {
     <ol>${recipe.steps.map(s => `<li>${s}</li>`).join("")}</ol>
   `;
 }
+async function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
+    const res = await fetch(`http://localhost:8080/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({username, password}),
+        credentials: 'include' // Make sure cookies are sent
+    });
+
+    if (res.ok) {
+        Promise.all(
+            basket.items.map(i => addToNemligBasket(i.id, i.quantity))
+        ).then(() => {
+            window.open('https://nemlig.com/', '_blank');
+        }).catch(err => {
+            console.error('Error adding items to Nemlig basket', err);
+        });
+    } else {
+        alert('Login failed');
+    }
+}
+
+async function addToNemligBasket(product_id, quantity) {
+    const res = await fetch('http://localhost:8080/addToBasket', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',  // Ensure cookies are included in the request
+        body: JSON.stringify({productId: product_id, quantity: quantity})
+    });
+
+    if (res.ok) {
+        // Handle success (e.g., show a success message, update UI, etc.)
+    } else {
+        console.error('Failed to add to basket');
+        // Handle error (e.g., show an error message)
+    }
+}
+
+function getCheckedItems(list) {
+    const checkedNames = Array.from(document.querySelectorAll(".ingredient-check"))
+        .filter(cb => cb.checked)
+        .map(cb => cb.parentElement.querySelector(".ingredient-name").textContent);
+    return list.filter(i => !checkedNames.includes(i.name));
+}
+
+function closeModal() {
+    document.getElementById('loginModal').style.display = 'none';
+}
+
+function openModal() {
+    document.getElementById('loginModal').style.display = 'flex';
+}
+
+window.addEventListener('click', function (e) {
+    const modal = document.getElementById('loginModal');
+    const content = document.querySelector('.modal-content');
+    if (e.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+
+// add to basket
+document.querySelector('#basketBtnAndTotalAmount .addToBasketBtn')?.addEventListener('click', function () {
+    getCheckedItems(allIngredients).forEach(i => {
+        const existingItem = basket.items.find(item => item.id === i.id);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            basket.items.push({id: i.id, ...i, quantity: 1});
+        }
+        basket.quantity += 1;
+        basket.totalPrice += i.price;
+    });
+    document.getElementById('basketCount').textContent = basket.quantity;
+});
+
+function openBasket() {
+    const basketItems = document.getElementById('basketItems');
+    const basketDropdown = document.getElementById('basketDropdown');
+    const basketHeaderPrice = document.querySelector(".basketHeaderPrice");
+
+    basketHeaderPrice.textContent = basket.totalPrice.toFixed(2) + " DKK";
+
+    basketItems.innerHTML = '';
+
+    basket.items.forEach(item => {
+        const itemDiv = document.createElement('li');
+        itemDiv.innerHTML = `
+      <div><strong>${item.quantity}x ${item.name}</strong></div>
+      <div>Amount: ${item.amount}${item.unit}</div>
+      <div>Price: $${item.price.toFixed(2)}</div>
+    `;
+        itemDiv.style.padding = '0.5rem 0';
+        itemDiv.style.borderBottom = '1px solid #ddd';
+        basketItems.appendChild(itemDiv);
+    });
+
+    document.getElementById('basketCount').textContent = basket.quantity;
+    basketDropdown.style.display = 'block';
+}
+
+document.addEventListener('click', function (e) {
+    const dropdown = document.getElementById('basketDropdown');
+    const basketBtn = document.getElementById('basketBtn');
+    if (!dropdown.contains(e.target) && !basketBtn.contains(e.target)) {
+        dropdown.style.display = 'none';
+    }
+});
+
+document.getElementById('CheckoutBtn').addEventListener('click', function () {
+    openModal();
+});
+=======
 
 let recipe;
 
