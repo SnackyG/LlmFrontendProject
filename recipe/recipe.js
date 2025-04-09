@@ -20,6 +20,8 @@ const recipe = {
     tags: ["pasta", "dinner"]
 };
 
+const basket = [];
+
 function renderIngredients(list, elementId, checked = false, showCheckMark = true, showPrice = true) {
     const ul = document.getElementById(elementId);
     ul.innerHTML = list.map(i => `
@@ -36,10 +38,7 @@ function renderIngredients(list, elementId, checked = false, showCheckMark = tru
 
     if (!showCheckMark) {
         ul.addEventListener("change", (event) => {
-            const checked = Array.from(ul.querySelectorAll(".ingredient-check"))
-                .filter(cb => cb.checked)
-                .map(cb => cb.parentElement.querySelector(".ingredient-name").textContent);
-            const totalPriceList = list.filter(i => !checked.includes(i.name));
+            const totalPriceList = getCheckedItems(list, ul);
             document.getElementById("total-price").textContent = calcTotal(totalPriceList);
         });
     }
@@ -87,13 +86,13 @@ async function login() {
 
     if (res.ok) {
         alert('Cookies set via proxy');
-        await addToBasket(5062512, 1);
+        await addToNemligBasket(5062512, 1);
     } else {
         alert('Login failed');
     }
 }
 
-async function addToBasket(product_id, quantity) {
+async function addToNemligBasket(product_id, quantity) {
     const res = await fetch('http://localhost:8080/addToBasket', {
         method: 'POST',
         headers: {
@@ -110,3 +109,27 @@ async function addToBasket(product_id, quantity) {
         // Handle error (e.g., show an error message)
     }
 }
+
+function getCheckedItems(list, ul) {
+    const checked = Array.from(ul.querySelectorAll(".ingredient-check"))
+        .filter(cb => cb.checked)
+        .map(cb => cb.parentElement.querySelector(".ingredient-name").textContent);
+    return list.filter(i => !checked.includes(i.name));
+}
+
+function closeModal() {
+    document.getElementById('loginModal').style.display = 'none';
+}
+
+window.addEventListener('click', function (e) {
+    const modal = document.getElementById('loginModal');
+    const content = document.querySelector('.modal-content');
+    if (e.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+
+document.getElementById('buy-btn').addEventListener('click', function () {
+
+    document.getElementById('loginModal').style.display = 'flex';
+});

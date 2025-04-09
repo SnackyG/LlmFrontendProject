@@ -17,10 +17,16 @@
     </div>
     <div class="recipe-box" id="recipe-box"></div>
 </div>
-<div class="login-box">
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="addToBasket(5062512, 1)" class="login-btn">Login</button>
+<div id="loginModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="login-box">
+            <img src="../images/nemlig-logo.png" alt="Logo" class="nemlig-logo" />
+            <input type="text" id="username" placeholder="Username" />
+            <input type="password" id="password" placeholder="Password" />
+            <button onclick="addToNemligBasket(5062512, 1)" class="login-btn">Login</button>
+        </div>
+    </div>
 </div>
 <script src="recipe.js"></script>
 </body>
