@@ -40,6 +40,10 @@
     cursor: pointer;
     background: white;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s ease
+}
+.ingredient-item:hover {
+    transform: scale(1.03);
 }
 
 .ingredient-check {
@@ -131,7 +135,7 @@ ul {
 
 #basketBtnAndTotalAmount {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     flex-direction: row;
 }
