@@ -22,7 +22,9 @@
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
 }
-
+h2{
+    border-bottom: 2px solid black;
+}
 .ingredients::-webkit-scrollbar-track {
     background: transparent;
 }
