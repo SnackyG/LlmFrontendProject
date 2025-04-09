@@ -1,29 +1,33 @@
-const recipe = {
-    title: "Spaghetti Bolognese",
-    servings: 4,
-    ingredients_to_buy: [
-        {name: "Spaghetti", amount: 400, unit: "g", price: 1.5},
-        {name: "Oksekød", amount: 500, unit: "g", price: 4.0},
-        {name: "Løg", amount: 2, unit: "pcs", price: 0.6},
-        {name: "Tomat pasta", amount: 140, unit: "g", price: 1.2},
-        {name: "hvidløg", amount: 400, unit: "g", price: 1.5},
-        {name: "Parmesan ost", amount: 100, unit: "g", price: 2.8}
-    ],
-    ingredients_at_home: [
-        {name: "Salt", amount: 1, unit: "tsp", price: 0},
-        {name: "Peber", amount: 1, unit: "tsp", price: 0}
-    ],
-    steps: [
-        "Sæt vand over",
-        "Kog pasta",
-        "Steg kødet",
-        "Mix de resterende varer i",
-        "Kog i 30 minutter"
-    ],
-    prep_time_minutes: 10,
-    cook_time_minutes: 20,
-    tags: ["pasta", "dinner"]
-};
+// const recipe = {
+//     title: "Spaghetti Bolognese",
+//     servings: 4,
+//     ingredients_to_buy: [
+//         {name: "Spaghetti", amount: 400, unit: "g", price: 1.5},
+//         {name: "Oksekød", amount: 500, unit: "g", price: 4.0},
+//         {name: "Løg", amount: 2, unit: "pcs", price: 0.6},
+//         {name: "Tomat pasta", amount: 140, unit: "g", price: 1.2},
+//         {name: "hvidløg", amount: 400, unit: "g", price: 1.5},
+//         {name: "Parmesan ost", amount: 100, unit: "g", price: 2.8}
+//     ],
+//     ingredients_at_home: [
+//         {name: "Salt", amount: 1, unit: "tsp", price: 0},
+//         {name: "Peber", amount: 1, unit: "tsp", price: 0}
+//     ],
+//     steps: [
+//         "Sæt vand over",
+//         "Kog pasta",
+//         "Steg kødet",
+//         "Mix de resterende varer i",
+//         "Kog i 30 minutter"
+//     ],
+//     prep_time_minutes: 10,
+//     cook_time_minutes: 20,
+//     tags: ["pasta", "dinner"]
+// };
+
+import {recipe} from "../input/input.js";
+
+console.log(recipe);
 
 function renderIngredients(list, elementId, checked = false, showCheckMark = true, showPrice = true, addClass = "") {
     const ul = document.getElementById(elementId);
@@ -96,5 +100,3 @@ renderIngredients(recipe.ingredients_at_home, "at-home", true);
 document.getElementById("total-price").textContent = calcTotal(recipe.ingredients_to_buy);
 renderRecipeBox(recipe);
 renderIngredients(allIngredients, "all-ingredients", false, false, false, "recipeBoxIngredient");
-
-
