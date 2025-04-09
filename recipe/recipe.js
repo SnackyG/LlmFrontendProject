@@ -28,7 +28,7 @@ const recipe = {
 function renderIngredients(list, elementId, checked = false, showCheckMark = true, showPrice = true, addClass = "") {
     const ul = document.getElementById(elementId);
     ul.innerHTML = list.map(i => `
-    <li class="ingredient-item ${addClass}">
+    <li class="ingredient-item ${addClass} ${checked ? 'crossed-out' : ''}">
       ${showCheckMark ? `<input type="checkbox" class="ingredient-check" ${checked ? 'checked' : ''}/>` : ``}
       <div class="ingredient-name">${i.name}</div>
       <div class="ingredient-info">

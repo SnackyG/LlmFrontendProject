@@ -66,11 +66,23 @@
 
 .recipe-box {
     width: 300px;
+    max-height: 80vh;
+    overflow-y: auto;
     background: #fff;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     font-family: "Monserrat", sans-serif;
+}
+.recipe-box::-webkit-scrollbar {
+    width: 8px;
+}
+.recipe-box::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+.recipe-box::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 ul {
@@ -79,18 +91,55 @@ ul {
 }
 
 .total {
-    font-weight: bold;
-    margin-top: 10px;
+    margin-top: 30px;
     text-align: right;
+    font-size: 30px;
+    font-family: "Kanit", sans-serif;
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
 }
 
 .ingredient-item.recipeBoxIngredient {
     border: none;
     margin: 0;
+    box-shadow: none;
 }
 
 .crossed-out {
     text-decoration: line-through;
     opacity: 0.5;
     border: 1px solid red;
+}
+
+#basketBtnAndTotalAmount{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
+}
+
+.addToBasketBtn{
+    width: 20%;
+    height: 20%;
+    padding: 0.75rem 1.5rem;
+    font-size: 2rem;
+    border: none;
+    border-radius: 0.75rem;
+    margin-right: 20px;
+    background-color: #48b6a1;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    font-family: "Kanit", sans-serif;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.addToBasketBtn:hover{
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid white;
+}
+.addToBasketBtn:active{
+    transform: scale(0.98);
 }
