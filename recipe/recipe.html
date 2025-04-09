@@ -5,14 +5,21 @@
     <title>Recipe</title>
     <link rel="stylesheet" href="recipe.css">
     <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inconsolata:wght@200..900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
 </head>
 <body>
 <div class="layout">
     <div class="ingredients">
-        <h2>To Buy</h2>
+        <h2>Køb</h2>
         <ul id="to-buy"></ul>
+        <h2>Har allerede</h2>
         <ul id="at-home"></ul>
-        <p class="total">Total: <span id="total-price">0.00</span> DKK</p>
+        <div id="basketBtnAndTotalAmount">
+            <button class="addToBasketBtn">Tilføj til kurv - <span id="total-price">0.00</span> DKK </button>
+        </div>
     </div>
     <div class="recipe-box" id="recipe-box"></div>
 </div>
