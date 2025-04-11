@@ -4,10 +4,13 @@ const basket = {
     totalPrice: 0,
 };
 
+let recipe;
+let allIngredients;
+
 function renderIngredients(list, elementId, checked = false, showCheckMark = true, showPrice = true, addClass = "") {
     const ul = document.getElementById(elementId);
     ul.innerHTML = list.map(i => `
-    <li class="ingredient-item ${addClass} ${checked ? 'crossed-out' : ''}">
+    <li class="ingredient-item ${addClass} ${checked ? 'crossed-out' : ''}" data-id="${i.id}">
       ${showCheckMark ? `<input type="checkbox" class="ingredient-check" ${checked ? 'checked' : ''}/>` : ``}
       <div class="ingredient-name">${i.name}</div>
       <div class="ingredient-info">
@@ -39,12 +42,17 @@ function renderIngredients(list, elementId, checked = false, showCheckMark = tru
 
 
         ul.addEventListener("change", () => {
-            const checked = Array.from(ul.querySelectorAll(".ingredient-check"))
-                .filter(cb => cb.checked)
-                .map(cb => cb.parentElement.querySelector(".ingredient-name").textContent);
+            const notCheckedPrices = Array.from(document.querySelectorAll(".ingredients .ingredient-item"))
+                .filter(item => !item.querySelector(".ingredient-check").checked)
+                .map(item => {
+                    const id = item.dataset.id;
+                    return allIngredients.find(ingredient => ingredient.id === id);
+                })
+                .filter(Boolean);
 
-            const totalPriceList = list.filter(i => !checked.includes(i.name));
-            document.getElementById("total-price").textContent = calcTotal(totalPriceList);
+            const totalPrice = notCheckedPrices.reduce((sum, ingredient) => sum + ingredient.price, 0);
+
+            document.getElementById("total-price").textContent = totalPrice.toFixed(2);
         });
     }
 }
@@ -204,14 +212,21 @@ document.getElementById('CheckoutBtn').addEventListener('click', function () {
     addBasketToNemligBasket();
 });
 
-let recipe;
-let allIngredients;
 
 document.addEventListener("DOMContentLoaded", () => {
-    recipe = JSON.parse(localStorage.getItem('generatedRecipe'));
+    // Try both keys, but prioritize 'generatedRecipe'
+    recipe = JSON.parse(localStorage.getItem('generatedRecipe') || localStorage.getItem('randomRecipe'));
 
+    if (!recipe) return;
+
+    // checks if recipe.type is equal to generatedRecipe, if true chooses generatedRecipe, if false chooses randomRecipe.
+    const keyUsed = recipe.type === 'generatedRecipe' ? 'generatedRecipe' : 'randomRecipe';
+
+    // Reload from the correct key (in case both exist and you want the latest version from that specific key)
+    recipe = JSON.parse(localStorage.getItem(keyUsed));
+
+    // Render logic (same for both)
     if (recipe) {
-
         allIngredients = [...recipe.ingredients_to_buy, ...recipe.ingredients_at_home];
         renderIngredients(recipe.ingredients_to_buy, "to-buy");
         renderIngredients(recipe.ingredients_at_home, "at-home", true);
@@ -219,18 +234,4 @@ document.addEventListener("DOMContentLoaded", () => {
         renderRecipeBox(recipe);
         renderIngredients(allIngredients, "all-ingredients", false, false, false, "recipeBoxIngredient");
     }
-})
-
-document.addEventListener("DOMContentLoaded", () => {
-    recipe = JSON.parse(localStorage.getItem('randomRecipe'));
-
-    if (recipe) {
-
-        const allIngredients = [...recipe.ingredients_to_buy, ...recipe.ingredients_at_home];
-        renderIngredients(recipe.ingredients_to_buy, "to-buy");
-        renderIngredients(recipe.ingredients_at_home, "at-home", true);
-        document.getElementById("total-price").textContent = calcTotal(recipe.ingredients_to_buy);
-        renderRecipeBox(recipe);
-        renderIngredients(allIngredients, "all-ingredients", false, false, false, "recipeBoxIngredient");
-    }
-})
+});

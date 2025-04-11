@@ -32,14 +32,16 @@ function sendPrompt() {
                 steps: data.steps,
                 prep_time_minutes: data.prep_time_minutes,
                 cook_time_minutes: data.cook_time_minutes,
-                tags: data.tags
+                tags: data.tags,
+                type: 'generatedRecipe'
             }
 
 
             setTimeout(() => {
                 localStorage.setItem('generatedRecipe', JSON.stringify(recipe));
+                localStorage.removeItem('randomRecipe');
                 window.location.href = "../recipe/recipe.html";
-            }, 2000);
+            }, 5);
         })
         .catch(error => {
             console.error('Der opstod en fejl:', error);
@@ -49,6 +51,9 @@ function sendPrompt() {
 
 // Get random recipe from backend
 function getRandomRecipe() {
+
+    document.getElementById('promptContainer').style.display = 'none';
+    document.getElementById('loadingScreen').style.display = 'flex';
 
     fetch('http://localhost:8080/generate-random-recipe')
         .then(response => {
@@ -68,12 +73,13 @@ function getRandomRecipe() {
                 steps: data.steps,
                 prep_time_minutes: data.prep_time_minutes,
                 cook_time_minutes: data.cook_time_minutes,
-                tags: data.tags
+                tags: data.tags,
+                type: 'randomRecipe'
             }
 
             setTimeout(() => {
                 localStorage.setItem('randomRecipe', JSON.stringify(recipe));
-
+                localStorage.removeItem('generatedRecipe');
                 window.location.href = "../recipe/recipe.html";
             }, 1000); // Simulate loading screen for 2 seconds
 
@@ -158,8 +164,6 @@ function startContinuousFoodAnimation() {
         // Clear the previous interval and set a new one with the updated interval time
         clearInterval(intervalId);
         intervalId = setInterval(updateInterval, intervalTime); // Reset the interval with the new time
-
-        console.log("New interval time:", intervalTime);
     }
 
     intervalId = setInterval(updateInterval, intervalTime); // Start the first interval
