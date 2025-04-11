@@ -78,7 +78,9 @@ function renderRecipeBox(recipe) {
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    openLoginModal(); // Reset the login modal
 
+    showLoadingSpinner('Logger ind...');
     const res = await fetch(`http://localhost:8080/login`, {
         method: 'POST',
         headers: {
@@ -86,26 +88,66 @@ async function login() {
         },
         body: JSON.stringify({username, password}),
         credentials: 'include' // Make sure cookies are sent
+    }).finally(() => {
+        hideLoadingSpinner();
     });
 
     if (res.ok) {
         closeLoginModal();
+        document.dispatchEvent(new Event('user-logged-in'));
     } else {
-        alert('Login failed');
+        openLoginModal('Login fejlede. Tjek din email og password.', 'error');
     }
 }
 
-function addBasketToNemligBasket() {
-    Promise.all(
-        basket.items.map(i => addToNemligBasket(i.id, i.quantity))
-    ).then(() => {
+function waitForLogin() {
+    return new Promise(resolve => {
+        const successHandler = () => {
+            cleanup();
+            resolve(true);
+        };
+        const cancelHandler = () => {
+            cleanup();
+            resolve(false);
+        };
+        const cleanup = () => {
+            document.removeEventListener('user-logged-in', successHandler);
+            document.removeEventListener('login-cancelled', cancelHandler);
+        };
+
+        document.addEventListener('user-logged-in', successHandler);
+        document.addEventListener('login-cancelled', cancelHandler);
+    });
+}
+
+async function addBasketToNemligBasket() {
+    if (basket.items.length === 0) {
+        alert("Der er ikke noget tilføjet til kurven.");
+        return;
+    }
+    try {
+        showLoadingSpinner('Tilføjer til Nemligkurven...');
+        await Promise.all(
+            basket.items.map(i => addToNemligBasket(i.id, i.quantity))
+        );
+        showLoadingSpinner('Omdirigerer til Nemlig.com...');
+        await new Promise(resolve => setTimeout(resolve, 1000));
         window.open('https://nemlig.com/', '_blank');
-    }).catch(err => {
+    } catch (err) {
         if (err.message === 'User not logged in') {
-            openLoginModal();
+            hideLoadingSpinner();
+            openLoginModal("Log venligst ind først.", "information");
+            const loggedIn = await waitForLogin();
+            if (loggedIn) {
+                return await addBasketToNemligBasket();
+            } else {
+                return;
+            }
         }
         console.error('Error adding items to Nemlig basket', err);
-    });
+    } finally {
+        hideLoadingSpinner();
+    }
 }
 
 async function addToNemligBasket(product_id, quantity) {
@@ -136,21 +178,34 @@ function getCheckedItems(list) {
     return list.filter(i => !checkedNames.includes(i.name));
 }
 
-function closeLoginModal() {
+function closeLoginModal(cancelled = false) {
     document.getElementById('loginModal').style.display = 'none';
-}
-
-function openLoginModal() {
-    document.getElementById('loginModal').style.display = 'flex';
-}
-
-window.addEventListener('click', function (e) {
-    const modal = document.getElementById('loginModal');
-    const content = document.querySelector('.modal-content');
-    if (e.target === modal) {
-        modal.style.display = 'none';
+    if (cancelled) {
+        document.dispatchEvent(new Event('login-cancelled'));
     }
-});
+}
+
+function openLoginModal(infoText = "", infoType = "information") {
+    const loginModal = document.getElementById('loginModal');
+    loginModal.style.display = 'flex';
+
+    const errorBox = document.getElementById('loginInfo');
+
+    errorBox.classList.remove('error');
+    errorBox.classList.remove('success');
+    errorBox.classList.remove('information');
+
+    if (infoType === "error") {
+        errorBox.classList.add('error');
+    } else if (infoType === "success") {
+        errorBox.classList.add('success');
+    } else if (infoType === "information") {
+        errorBox.classList.add('information');
+    }
+
+    errorBox.textContent = infoText;
+    errorBox.style.display = infoText ? 'block' : 'none';
+}
 
 // add to basket
 document.querySelector('#basketBtnAndTotalAmount .addToBasketBtn')?.addEventListener('click', function () {
@@ -200,8 +255,8 @@ document.addEventListener('click', function (e) {
     }
 });
 
-document.getElementById('CheckoutBtn').addEventListener('click', function () {
-    addBasketToNemligBasket();
+document.getElementById('CheckoutBtn').addEventListener('click', async function () {
+    await addBasketToNemligBasket();
 });
 
 
@@ -227,3 +282,15 @@ document.addEventListener("DOMContentLoaded", () => {
         renderIngredients(allIngredients, "all-ingredients", false, false, false, "recipeBoxIngredient");
     }
 });
+
+function showLoadingSpinner(text) {
+    const loadingSpinner = document.getElementById('loadingScreen');
+    loadingSpinner.style.display = 'flex';
+    const loadingScreenText = document.querySelector("#loadingScreen p");
+    loadingScreenText.textContent = text;
+}
+
+function hideLoadingSpinner() {
+    const loadingSpinner = document.getElementById('loadingScreen');
+    loadingSpinner.style.display = 'none';
+}

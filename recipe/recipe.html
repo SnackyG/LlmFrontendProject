@@ -11,11 +11,16 @@
           rel="stylesheet">
 </head>
 <body>
+<div id="loadingScreen" class="loading-screen" style="display: none;">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+</div>
 <header class="header">
     <h1></h1>
     <div id="basketDropdownContainer">
         <button id="basketBtn" class="basket-btn" onclick="openBasket()"><img src="../images/basket.png"
-                                                                              class="basketImg" alt="basket"> <span id="basketCount">0</span>
+                                                                              class="basketImg" alt="basket"> <span
+                id="basketCount">0</span>
         </button>
         <div id="basketDropdown" class="basket-dropdown" style="display: none;">
             <div class="basketHeader">
@@ -28,11 +33,13 @@
     </div>
 </header>
 <div class="layout">
-    <div class="ingredients">
-        <h2>Køb</h2>
-        <ul id="to-buy"></ul>
-        <h2>Har allerede</h2>
-        <ul id="at-home"></ul>
+    <div class="left">
+        <div class="ingredients">
+            <h2>Køb</h2>
+            <ul id="to-buy"></ul>
+            <h2>Har allerede</h2>
+            <ul id="at-home"></ul>
+        </div>
         <div id="basketBtnAndTotalAmount">
             <button class="addToBasketBtn">Tilføj til kurv - <span id="total-price">0.00</span> DKK</button>
         </div>
@@ -41,11 +48,12 @@
 </div>
 <div id="loginModal" class="modal" style="display: none;">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeLoginModal()">&times;</span>
+        <span class="close-btn" onclick="closeLoginModal(true)">&times;</span>
         <div class="login-box">
             <img src="../images/nemlig-logo.png" alt="Logo" class="nemlig-logo"/>
-            <input type="text" id="username" placeholder="Username"/>
+            <input type="text" id="username" placeholder="Email"/>
             <input type="password" id="password" placeholder="Password"/>
+            <div id="loginInfo" class="info-box" style="display: none;"></div>
             <button onclick="login()" class="login-btn">Login</button>
         </div>
     </div>

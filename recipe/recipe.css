@@ -3,11 +3,19 @@
     padding: 20px;
     gap: 20px;
     width: 95%;
-    height: 90vh;
+    height: calc(100vh - 60px);
+    /* height: auto; */
+    box-sizing: border-box;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .ingredients {
-    flex: 1;
+    flex: 2;
     background: transparent;
     padding: 20px;
     border-radius: 12px;
@@ -42,7 +50,7 @@ h2{
     cursor: pointer;
     background: white;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.4s ease
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .ingredient-item:hover {
     transform: scale(1.03);
@@ -92,7 +100,7 @@ h2{
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     font-family: "Monserrat", sans-serif;
-    margin-top: 40px;
+    /* margin-top: 40px; */
 }
 
 .recipe-box::-webkit-scrollbar {
@@ -140,11 +148,13 @@ ul {
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    padding: 10px 0px;
+    box-sizing: border-box;
 }
 
 .addToBasketBtn {
-    width: 60%;
-    height: 10%;
+    width: 64%;
+    height: 100%;
     padding: 0.75rem 1.5rem;
     font-size: 2rem;
     border: none;
@@ -156,6 +166,7 @@ ul {
     transition: transform 0.4s ease, box-shadow 0.4s ease;
     font-family: "Kanit", sans-serif;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
 .addToBasketBtn:hover {
@@ -178,7 +189,7 @@ ul {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
+    z-index: 10;
 }
 
 .modal-content {
@@ -224,6 +235,30 @@ input#username, input#password {
     box-sizing: border-box;
 }
 
+.info-box {
+    background-color: #ffe0e0;
+    color: lightgray;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.info-box.success {
+    background-color: #e0ffe0;
+    color: green;
+}
+
+.info-box.information {
+    background-color: #e0e0ff;
+    color: blue;
+}
+
+.info-box.error {
+    background-color: #ffe0e0;
+    color: red;
+}
+
 button.login-btn {
     padding: 0.5rem;
     width: 100%;
@@ -235,17 +270,19 @@ button.login-btn {
 }
 
 .header {
-    position: fixed;
+    /* position: fixed; */
     top: 0;
     left: 0;
     right: 0;
-    height: 20px;
+    height: 60px;
     background: transparent;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 1rem;
     z-index: 1000;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .basket-btn {
@@ -318,5 +355,37 @@ button.login-btn {
     vertical-align: middle;
 }
 
+.loading-screen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 
+.loading-screen .spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #fff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
