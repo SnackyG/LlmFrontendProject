@@ -32,12 +32,14 @@ function sendPrompt() {
                 steps: data.steps,
                 prep_time_minutes: data.prep_time_minutes,
                 cook_time_minutes: data.cook_time_minutes,
-                tags: data.tags
+                tags: data.tags,
+                type: 'generatedRecipe'
             }
 
 
             setTimeout(() => {
                 localStorage.setItem('generatedRecipe', JSON.stringify(recipe));
+                localStorage.removeItem('randomRecipe');
                 window.location.href = "../recipe/recipe.html";
             }, 2000);
         })
@@ -71,12 +73,13 @@ function getRandomRecipe() {
                 steps: data.steps,
                 prep_time_minutes: data.prep_time_minutes,
                 cook_time_minutes: data.cook_time_minutes,
-                tags: data.tags
+                tags: data.tags,
+                type: 'randomRecipe'
             }
 
             setTimeout(() => {
                 localStorage.setItem('randomRecipe', JSON.stringify(recipe));
-
+                localStorage.removeItem('generatedRecipe');
                 window.location.href = "../recipe/recipe.html";
             }, 1000); // Simulate loading screen for 2 seconds
 

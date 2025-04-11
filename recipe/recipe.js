@@ -186,29 +186,26 @@ document.getElementById('CheckoutBtn').addEventListener('click', function () {
     openModal();
 });
 
-let recipe;
-// let allIngredients;
 
 document.addEventListener("DOMContentLoaded", () => {
-    recipe = JSON.parse(localStorage.getItem('generatedRecipe'));
+    // Try both keys, but prioritize 'generatedRecipe'
+    let recipe = JSON.parse(localStorage.getItem('generatedRecipe') || localStorage.getItem('randomRecipe'));
 
+    if (!recipe) return;
+
+    // checks if recipe.type is equal to generatedRecipe, if true chooses generatedRecipe, if false chooses randomRecipe.
+    const keyUsed = recipe.type === 'generatedRecipe' ? 'generatedRecipe' : 'randomRecipe';
+
+    // Reload from the correct key (in case both exist and you want the latest version from that specific key)
+    recipe = JSON.parse(localStorage.getItem(keyUsed));
+
+    // Render logic (same for both)
     if (recipe) {
-        if (localStorage.getItem('generatedRecipe')) {
-            const allIngredients = [...recipe.ingredients_to_buy, ...recipe.ingredients_at_home];
-            renderIngredients(recipe.ingredients_to_buy, "to-buy");
-            renderIngredients(recipe.ingredients_at_home, "at-home", true);
-            document.getElementById("total-price").textContent = calcTotal(recipe.ingredients_to_buy);
-            renderRecipeBox(recipe);
-            renderIngredients(allIngredients, "all-ingredients", false, false, false, "recipeBoxIngredient");
-        }
-        if (localStorage.getItem('randomRecipe')) {
-
-            const allIngredients = [...recipe.ingredients_to_buy, ...recipe.ingredients_at_home];
-            renderIngredients(recipe.ingredients_to_buy, "to-buy");
-            renderIngredients(recipe.ingredients_at_home, "at-home", true);
-            document.getElementById("total-price").textContent = calcTotal(recipe.ingredients_to_buy);
-            renderRecipeBox(recipe);
-            renderIngredients(allIngredients, "all-ingredients", false, false, false, "recipeBoxIngredient");
-        }
+        const allIngredients = [...recipe.ingredients_to_buy, ...recipe.ingredients_at_home];
+        renderIngredients(recipe.ingredients_to_buy, "to-buy");
+        renderIngredients(recipe.ingredients_at_home, "at-home", true);
+        document.getElementById("total-price").textContent = calcTotal(recipe.ingredients_to_buy);
+        renderRecipeBox(recipe);
+        renderIngredients(allIngredients, "all-ingredients", false, false, false, "recipeBoxIngredient");
     }
-})
+});
