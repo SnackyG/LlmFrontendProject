@@ -41,7 +41,7 @@ function sendPrompt() {
                 localStorage.setItem('generatedRecipe', JSON.stringify(recipe));
                 localStorage.removeItem('randomRecipe');
                 window.location.href = "../recipe/recipe.html";
-            }, 2000);
+            }, 5);
         })
         .catch(error => {
             console.error('Der opstod en fejl:', error);
@@ -164,8 +164,6 @@ function startContinuousFoodAnimation() {
         // Clear the previous interval and set a new one with the updated interval time
         clearInterval(intervalId);
         intervalId = setInterval(updateInterval, intervalTime); // Reset the interval with the new time
-
-        console.log("New interval time:", intervalTime);
     }
 
     intervalId = setInterval(updateInterval, intervalTime); // Start the first interval
