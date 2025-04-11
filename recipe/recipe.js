@@ -187,14 +187,23 @@ document.getElementById('CheckoutBtn').addEventListener('click', function () {
 });
 
 let recipe;
-// let allIngredients;
 
 document.addEventListener("DOMContentLoaded", () => {
     recipe = JSON.parse(localStorage.getItem('generatedRecipe'));
 
     if (recipe) {
         if (localStorage.getItem('generatedRecipe')) {
+        allIngredients = [...recipe.ingredients_to_buy, ...recipe.ingredients_at_home];
+        renderIngredients(recipe.ingredients_to_buy, "to-buy");
+        renderIngredients(recipe.ingredients_at_home, "at-home", true);
+        document.getElementById("total-price").textContent = calcTotal(recipe.ingredients_to_buy);
+        renderRecipeBox(recipe);
+        renderIngredients(allIngredients, "all-ingredients", false, false, false, "recipeBoxIngredient");
+    }
+})
 
+document.addEventListener("DOMContentLoaded", () => {
+    recipe = JSON.parse(localStorage.getItem('randomRecipe'));
 
             const allIngredients = [...recipe.ingredients_to_buy, ...recipe.ingredients_at_home];
             renderIngredients(recipe.ingredients_to_buy, "to-buy");
