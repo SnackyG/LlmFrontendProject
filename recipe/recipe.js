@@ -187,15 +187,12 @@ document.getElementById('CheckoutBtn').addEventListener('click', function () {
 });
 
 let recipe;
-// let allIngredients;
 
 document.addEventListener("DOMContentLoaded", () => {
     recipe = JSON.parse(localStorage.getItem('generatedRecipe'));
 
     if (recipe) {
         if (localStorage.getItem('generatedRecipe')) {
-
-
             const allIngredients = [...recipe.ingredients_to_buy, ...recipe.ingredients_at_home];
             renderIngredients(recipe.ingredients_to_buy, "to-buy");
             renderIngredients(recipe.ingredients_at_home, "at-home", true);
