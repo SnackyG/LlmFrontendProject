@@ -81,17 +81,32 @@ async function login() {
     });
 
     if (res.ok) {
-        Promise.all(
-            basket.items.map(i => addToNemligBasket(i.id, i.quantity))
-        ).then(() => {
-            window.open('https://nemlig.com/', '_blank');
-        }).catch(err => {
-            console.error('Error adding items to Nemlig basket', err);
-        });
+        // Promise.all(
+        //     basket.items.map(i => addToNemligBasket(i.id, i.quantity))
+        // ).then(() => {
+        //     window.open('https://nemlig.com/', '_blank');
+        // }).catch(err => {
+        //     console.error('Error adding items to Nemlig basket', err);
+        // });
+        closeModal();
     } else {
         alert('Login failed');
     }
 }
+
+function addBasketToNemligBasket() {
+    Promise.all(
+        basket.items.map(i => addToNemligBasket(i.id, i.quantity))
+    ).then(() => {
+        window.open('https://nemlig.com/', '_blank');
+    }).catch(err => {
+        if (err.message === 'User not logged in') {
+            openLoginModal();
+        }
+        console.error('Error adding items to Nemlig basket', err);
+    });
+}
+
 
 async function addToNemligBasket(product_id, quantity) {
     const res = await fetch('http://localhost:8080/addToBasket', {
@@ -104,7 +119,10 @@ async function addToNemligBasket(product_id, quantity) {
     });
 
     if (res.ok) {
-        // Handle success (e.g., show a success message, update UI, etc.)
+        const result = await res.json();
+        if (result.Email == null) {
+            throw new Error('User not logged in');
+        }
     } else {
         console.error('Failed to add to basket');
         // Handle error (e.g., show an error message)
@@ -122,7 +140,7 @@ function closeModal() {
     document.getElementById('loginModal').style.display = 'none';
 }
 
-function openModal() {
+function openLoginModal() {
     document.getElementById('loginModal').style.display = 'flex';
 }
 
@@ -183,7 +201,7 @@ document.addEventListener('click', function (e) {
 });
 
 document.getElementById('CheckoutBtn').addEventListener('click', function () {
-    openModal();
+    addBasketToNemligBasket();
 });
 
 let recipe;
