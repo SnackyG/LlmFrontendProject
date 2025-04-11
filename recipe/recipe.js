@@ -89,14 +89,7 @@ async function login() {
     });
 
     if (res.ok) {
-        // Promise.all(
-        //     basket.items.map(i => addToNemligBasket(i.id, i.quantity))
-        // ).then(() => {
-        //     window.open('https://nemlig.com/', '_blank');
-        // }).catch(err => {
-        //     console.error('Error adding items to Nemlig basket', err);
-        // });
-        closeModal();
+        closeLoginModal();
     } else {
         alert('Login failed');
     }
@@ -114,7 +107,6 @@ function addBasketToNemligBasket() {
         console.error('Error adding items to Nemlig basket', err);
     });
 }
-
 
 async function addToNemligBasket(product_id, quantity) {
     const res = await fetch('http://localhost:8080/addToBasket', {
@@ -144,7 +136,7 @@ function getCheckedItems(list) {
     return list.filter(i => !checkedNames.includes(i.name));
 }
 
-function closeModal() {
+function closeLoginModal() {
     document.getElementById('loginModal').style.display = 'none';
 }
 
