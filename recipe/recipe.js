@@ -187,6 +187,7 @@ document.getElementById('CheckoutBtn').addEventListener('click', function () {
 });
 
 let recipe;
+// let allIngredients;
 
 document.addEventListener("DOMContentLoaded", () => {
     recipe = JSON.parse(localStorage.getItem('generatedRecipe'));

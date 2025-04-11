@@ -50,6 +50,9 @@ function sendPrompt() {
 // Get random recipe from backend
 function getRandomRecipe() {
 
+    document.getElementById('promptContainer').style.display = 'none';
+    document.getElementById('loadingScreen').style.display = 'flex';
+
     fetch('http://localhost:8080/generate-random-recipe')
         .then(response => {
             if (!response.ok) {
