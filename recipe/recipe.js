@@ -12,7 +12,8 @@ function renderIngredients(list, elementId, checked = false, showCheckMark = tru
     ul.innerHTML = list.map(i => `
     <li class="ingredient-item ${addClass} ${checked ? 'crossed-out' : ''}" data-id="${i.id}">
       ${showCheckMark ? `<input type="checkbox" class="ingredient-check" ${checked ? 'checked' : ''}/>` : ``}
-      <div class="ingredient-name">${i.name}</div>
+      ${showPrice ? `<image src="${i.primaryImageUrl}">` : ``}
+      <div class="ingredient-name">${showPrice ? i.productName :i.name}</div>
       <div class="ingredient-info">
         <div class="ingredient-amount">${i.amount}</div>
         <div class="ingredient-unit">${i.unit}</div>
@@ -172,10 +173,12 @@ async function addToNemligBasket(product_id, quantity) {
 }
 
 function getCheckedItems(list) {
-    const checkedNames = Array.from(document.querySelectorAll(".ingredient-check"))
-        .filter(cb => cb.checked)
-        .map(cb => cb.parentElement.querySelector(".ingredient-name").textContent);
-    return list.filter(i => !checkedNames.includes(i.name));
+    const checkedIds = Array.from(document.querySelectorAll(".ingredients .ingredient-item"))
+        .filter(item => !item.querySelector(".ingredient-check").checked)
+        .map(item => {
+            return item.dataset.id;
+        })
+    return list.filter(i => !checkedIds.includes(i.id));
 }
 
 function closeLoginModal(cancelled = false) {

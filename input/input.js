@@ -24,7 +24,7 @@ function sendPrompt() {
         .then(data => {
             console.log("VORES DATA SER SÅDAN HER UD: ", JSON.stringify(data, null, 2));
 
-             const recipe = {
+            const recipe = {
                 title: data.title,
                 servings: data.servings,
                 ingredients_to_buy: data.ingredients_to_buy,
@@ -36,12 +36,10 @@ function sendPrompt() {
                 type: 'generatedRecipe'
             }
 
+            localStorage.setItem('generatedRecipe', JSON.stringify(recipe));
+            localStorage.removeItem('randomRecipe');
+            window.location.href = "../recipe/recipe.html";
 
-            setTimeout(() => {
-                localStorage.setItem('generatedRecipe', JSON.stringify(recipe));
-                localStorage.removeItem('randomRecipe');
-                window.location.href = "../recipe/recipe.html";
-            }, 5);
         })
         .catch(error => {
             console.error('Der opstod en fejl:', error);
@@ -77,11 +75,9 @@ function getRandomRecipe() {
                 type: 'randomRecipe'
             }
 
-            setTimeout(() => {
-                localStorage.setItem('randomRecipe', JSON.stringify(recipe));
-                localStorage.removeItem('generatedRecipe');
-                window.location.href = "../recipe/recipe.html";
-            }, 1000); // Simulate loading screen for 2 seconds
+            localStorage.setItem('randomRecipe', JSON.stringify(recipe));
+            localStorage.removeItem('generatedRecipe');
+            window.location.href = "../recipe/recipe.html";
 
         })
         .catch(error => {
@@ -139,7 +135,7 @@ function creativitySliderSetup() {
 }
 
 function foodAnimation() {
-    const ingredients = ["🥦", "🥩", "🧄", "🍅", "🧀", "🌶️", "🥕","🥑","🍗","🍆"];
+    const ingredients = ["🥦", "🥩", "🧄", "🍅", "🧀", "🌶️", "🥕", "🥑", "🍗", "🍆"];
     ingredients.forEach((emoji, index) => {
             const el = document.createElement('div');
             el.className = 'floating-ingredient';

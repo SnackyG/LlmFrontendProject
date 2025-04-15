@@ -51,9 +51,14 @@ h2{
     background: white;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 5px;
 }
 .ingredient-item:hover {
     transform: scale(1.03);
+}
+
+.ingredient-item img {
+    height: 35px;
 }
 
 .ingredient-check {
